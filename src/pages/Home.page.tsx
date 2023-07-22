@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const HomePage = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="bg-white dark:bg-gray-900" style={{ height: "90vh" }}>
       <div className="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 h-full flex flex-col items-center justify-center">
@@ -14,6 +18,7 @@ const HomePage = () => {
             data-modal-target="defaultModal"
             data-modal-toggle="defaultModal"
             className="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
+            onClick={() => navigate("/quiz-config")}
           >
             Get started
             <svg
