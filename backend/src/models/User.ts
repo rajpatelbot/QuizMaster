@@ -1,5 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import { IUser } from "./types";
+import { IUser } from "../types/global.type";
 
 const User: Schema = new mongoose.Schema(
   {
@@ -14,16 +14,12 @@ const User: Schema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [true, "Please provide an email"],
-    },
-    access_token: {
-      type: String,
-      required: true,
+      required: [true, "Please provide an password"],
     },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model<IUser>("User", User, "users");
