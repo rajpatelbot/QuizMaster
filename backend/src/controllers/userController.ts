@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { hash } from "bcrypt";
 import User from "../models/User";
-import { IUser } from "../types/global.type";
 import { userLoginValidation, userSignupValidation } from "../validations/userValidation";
 import { webToken } from "../utils/generateJWT";
 
@@ -20,7 +19,10 @@ import {
   OK,
 } from "../constants";
 
-export const signup = async (req: Request, res: Response) => {
+import { IAuthFnReturn } from "./types";
+import { IUser } from "../types/global.type";
+
+export const signup = async (req: Request, res: Response): IAuthFnReturn => {
   try {
     const payload = req.body as IUser;
 
@@ -51,7 +53,7 @@ export const signup = async (req: Request, res: Response) => {
   }
 };
 
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response): IAuthFnReturn => {
   try {
     const payload = req.body as Partial<IUser>;
 
