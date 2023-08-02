@@ -18,3 +18,10 @@ export interface ResponseType<T> {
   data?: T;
   success: boolean;
 }
+
+export interface IloggedInUser {
+  id: string;
+  name: string;
+  email: string;
+  createdAt: string;
+}

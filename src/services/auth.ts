@@ -1,21 +1,24 @@
+import { AxiosError } from "axios";
 import { Dispatch } from "@reduxjs/toolkit";
+import { setLoading, setLoggedInUser } from "../store/slice/baseSlice";
 import { ISignupFormState } from "../components/auth/types";
+import { successToast } from "../components/Toast";
 import { api } from "../config/api";
 import { apiService } from "../config/apiService";
-import { setLoading, setToken } from "../store/slice/baseSlice";
+import { IloggedInUser, ResponseType } from "../helper/types";
+import { handleCatchResponse } from "../helper";
 
 export const onSignup = async (payload: ISignupFormState, dispatch: Dispatch) => {
   try {
     dispatch(setLoading(true));
 
     const response = await apiService.post(api.signup, payload);
-    const data = response.data;
+    const data: ResponseType<IloggedInUser> = response.data;
 
-    console.log(data);
-
-    dispatch(setToken(data.token));
+    dispatch(setLoggedInUser(data));
+    successToast(data.message);
   } catch (error) {
-    console.log(error);
+    handleCatchResponse(error as AxiosError);
   } finally {
     dispatch(setLoading(false));
   }

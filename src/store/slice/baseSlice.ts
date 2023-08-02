@@ -1,9 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { BaseSliceValue, SetBooleanPayload, TokenPayload } from "./types";
+import { BaseSliceValue, SetBooleanPayload, SetLoggedInUserPayload, TokenPayload } from "./types";
 
 const initialState: BaseSliceValue = {
   token: null,
   loading: false,
+  loggedInUser: null,
 };
 
 export const BaseSlice = createSlice({
@@ -14,10 +15,15 @@ export const BaseSlice = createSlice({
       state.token = action.payload;
     },
     setLoading: (state, action: SetBooleanPayload) => {
+      console.log("action.payload", action.payload);
+
       state.loading = action.payload;
+    },
+    setLoggedInUser: (state, action: SetLoggedInUserPayload) => {
+      state.loggedInUser = action.payload;
     },
   },
 });
 
-export const { setToken, setLoading } = BaseSlice.actions;
+export const { setToken, setLoading, setLoggedInUser } = BaseSlice.actions;
 export default BaseSlice.reducer;
