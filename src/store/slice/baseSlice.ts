@@ -15,8 +15,6 @@ export const BaseSlice = createSlice({
       state.token = action.payload;
     },
     setLoading: (state, action: SetBooleanPayload) => {
-      console.log("action.payload", action.payload);
-
       state.loading = action.payload;
     },
     setLoggedInUser: (state, action: SetLoggedInUserPayload) => {

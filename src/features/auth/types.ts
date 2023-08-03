@@ -3,3 +3,7 @@ export interface ISignupFormState {
   email: string;
   password: string;
 }
+export interface ILoginFormState {
+  email: string;
+  password: string;
+}

@@ -1,7 +1,7 @@
 import { AxiosError } from "axios";
 import { errorToast } from "../components/Toast";
 
-export const handleCatchResponse = (error: AxiosError) => {
+export const handleErrorResponse = (error: AxiosError) => {
   const message = "Something is wrong please try again!";
 
   for (const key in error) {

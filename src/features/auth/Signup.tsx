@@ -5,7 +5,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SignupValidationSchema } from "./Schema";
 import { ISignupFormState } from "./types";
 import { onSignup } from "../../api/auth";
-import { PrimaryButton } from "../../components/buttons/buttons";
+import { PrimaryButton, SecondaryButton } from "../../components/buttons/buttons";
 
 const initialSignupValues: ISignupFormState = {
   name: "",
@@ -31,6 +31,7 @@ const Signup = () => {
   return (
     <div className="bg-white dark:bg-gray-900" style={{ height: "90vh" }}>
       <form className="py-8 px-4 mx-auto h-full flex flex-col max-w-xl justify-center" onSubmit={handleSubmit(handleSignup)}>
+        <h1 className="text-2xl font-bold mb-8">Sign up</h1>
         <div className="mb-6">
           <label htmlFor="name" className="block mb-2 text-sm font-medium text-gray-900">
             Name
@@ -50,7 +51,7 @@ const Signup = () => {
 
         <div className="mb-6">
           <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900">
-            Your email
+            Email
           </label>
           <input
             type="email"
@@ -67,7 +68,7 @@ const Signup = () => {
 
         <div className="mb-6">
           <label htmlFor="password" className="block mb-2 text-sm font-medium text-gray-900">
-            Your password
+            Password
           </label>
           <input
             type="password"
@@ -81,7 +82,10 @@ const Signup = () => {
           />
           {errors.password && <span className="text-red-500">{errors.password.message}</span>}
         </div>
-        <PrimaryButton text="Sign up" route="/signup" type="submit" loading={loading} />
+        <div className="flex gap-1">
+          <PrimaryButton text="Sign up" type="submit" loading={loading} />
+          <SecondaryButton text="Reset" type="reset" loading={loading} />
+        </div>
       </form>
     </div>
   );

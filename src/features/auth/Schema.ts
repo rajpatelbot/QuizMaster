@@ -5,3 +5,8 @@ export const SignupValidationSchema = object({
   email: string().email("Invalid email").required("Required"),
   password: string().min(4, "Too Short!").max(8, "Too Long!").required("Required"),
 });
+
+export const LoginValidationSchema = object({
+  email: string().email("Invalid email").required("Required"),
+  password: string().min(4, "Too Short!").max(8, "Too Long!").required("Required"),
+});
