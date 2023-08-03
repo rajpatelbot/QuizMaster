@@ -1,12 +1,12 @@
 import { AxiosError } from "axios";
 import { Dispatch } from "@reduxjs/toolkit";
 import { setLoading, setLoggedInUser } from "../store/slice/baseSlice";
-import { ISignupFormState } from "../components/auth/types";
 import { successToast } from "../components/Toast";
 import { api } from "../config/api";
 import { apiService } from "../config/apiService";
 import { IloggedInUser, ResponseType } from "../helper/types";
 import { handleCatchResponse } from "../helper";
+import { ISignupFormState } from "../features/auth/types";
 
 export const onSignup = async (payload: ISignupFormState, dispatch: Dispatch) => {
   try {

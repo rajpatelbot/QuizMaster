@@ -4,8 +4,8 @@ import Navbar from "./layouts/Navbar";
 import HomePage from "./pages/Home.page";
 import QuizConfig from "./pages/QuizConfig.page";
 import Quiz from "./pages/Quiz.page";
-import Signup from "./components/auth/Signup";
-import Login from "./components/auth/Login";
+import Signup from "./features/auth/Signup";
+import Login from "./features/auth/Login";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {

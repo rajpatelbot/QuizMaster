@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReduxStateInterface } from "../../store/slice/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { PrimaryButton } from "../buttons/buttons";
 import { SignupValidationSchema } from "./Schema";
 import { ISignupFormState } from "./types";
-import { onSignup } from "../../services/auth";
+import { onSignup } from "../../api/auth";
+import { PrimaryButton } from "../../components/buttons/buttons";
 
 const initialSignupValues: ISignupFormState = {
   name: "",
