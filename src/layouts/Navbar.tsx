@@ -1,8 +1,22 @@
 import { Link } from "react-router-dom";
 import { navbarItems } from "../helper/constant";
 import { PrimaryButton, SecondaryButton } from "../components/buttons/buttons";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { ReduxStateInterface } from "../store/slice/types";
+import { IloggedInUser, ResponseType } from "../helper/types";
 
 const Navbar = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+
+  const loggedIn: ResponseType<IloggedInUser> | null = useSelector((state: ReduxStateInterface) => state.base.loggedInUser);
+
+  useEffect(() => {
+    if (loggedIn?.data) {
+      setIsLoggedIn(true);
+    }
+  }, [loggedIn, setIsLoggedIn]);
+
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -13,8 +27,15 @@ const Navbar = () => {
           </a>
 
           <div className="flex md:order-2 items-center justify-center">
-            <SecondaryButton text="Login" route="/login" />
-            <PrimaryButton text="Signup" route="/signup" />
+            {!isLoggedIn ? (
+              <>
+                <SecondaryButton text="Login" route="/login" />
+                <PrimaryButton text="Signup" route="/signup" />
+              </>
+            ) : (
+              <SecondaryButton text="My Profile" route="/me" />
+            )}
+
             <button
               data-collapse-toggle="navbar-cta"
               type="button"
@@ -23,20 +44,8 @@ const Navbar = () => {
               aria-expanded="false"
             >
               <span className="sr-only">Open main menu</span>
-              <svg
-                className="w-5 h-5"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 17 14"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M1 1h15M1 7h15M1 13h15"
-                />
+              <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
               </svg>
             </button>
           </div>

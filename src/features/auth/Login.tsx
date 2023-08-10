@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { ReduxStateInterface } from "../../store/slice/types";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginValidationSchema } from "./Schema";
-import { ILoginFormState } from "./types";
-import { onLogin } from "../../api/auth";
 import { PrimaryButton, SecondaryButton } from "../../components/buttons/buttons";
+import { onLogin } from "../../api/auth";
+import { ILoginFormState } from "./types";
 
 const initialLoginValues: ILoginFormState = {
   email: "",
@@ -14,6 +15,8 @@ const initialLoginValues: ILoginFormState = {
 
 const Signup = () => {
   const dispatch = useDispatch();
+
+  const navigate = useNavigate();
 
   const loading = useSelector((state: ReduxStateInterface) => state.base.loading);
 
@@ -24,7 +27,7 @@ const Signup = () => {
   } = useForm<ILoginFormState>({ defaultValues: initialLoginValues, resolver: yupResolver(LoginValidationSchema) });
 
   const handleLogin: SubmitHandler<ILoginFormState> = (values: ILoginFormState) => {
-    onLogin(values, dispatch);
+    onLogin(values, dispatch, navigate);
   };
 
   return (

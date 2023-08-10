@@ -5,14 +5,8 @@ export interface ReduxStateInterface {
 }
 
 export interface BaseSliceValue {
-  token: string | null;
   loading: boolean;
   loggedInUser: ResponseType<IloggedInUser> | null;
-}
-
-export interface TokenPayload {
-  payload: string | null;
-  type: string;
 }
 
 export interface SetBooleanPayload {

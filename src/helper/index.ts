@@ -1,4 +1,5 @@
 import { AxiosError } from "axios";
+import Cookies from "js-cookie";
 import { errorToast } from "../components/Toast";
 
 export const handleErrorResponse = (error: AxiosError) => {
@@ -17,4 +18,9 @@ export const handleErrorResponse = (error: AxiosError) => {
     }
   }
   errorToast(message);
+};
+
+export const getCookie = () => {
+  const token = Cookies.get("token");
+  return Boolean(token);
 };

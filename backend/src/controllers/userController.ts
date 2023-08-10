@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { hash } from "bcrypt";
 import User from "../models/User";
@@ -47,7 +47,7 @@ export const signup = async (req: Request, res: Response): IAuthFnReturn => {
     const newUserWithHashedPassword: IUser = new User({ ...payload, password: hashedPassword });
 
     const newUser = await newUserWithHashedPassword.save();
-    return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, user: newUser, success: true });
+    return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, data: newUser, success: true });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
@@ -78,17 +78,19 @@ export const login = async (req: Request, res: Response): IAuthFnReturn => {
       return res.status(BAD_REQUEST).json({ message: INVALID_CREDENTIALS, success: false });
     } else {
       const token = webToken(existedUser._id as string, existedUser.email as Partial<IUser>);
-      const cookieOptions = {
+
+      const cookieOptions: CookieOptions = {
+        secure: false,
         httpOnly: true,
-        secure: true,
         maxAge: COOKIE_EXPIRES_IN,
       };
 
       if (token) {
         res.cookie("token", token, cookieOptions);
       }
+
+      return res.status(OK).json({ message: LOGIN_SUCCESSFULLY, data: existedUser, token: token, success: true });
     }
-    return res.status(OK).json({ message: LOGIN_SUCCESSFULLY, user: existedUser, success: true });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
