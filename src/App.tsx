@@ -1,8 +1,5 @@
-import { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { ToastContainer } from "react-toastify";
-import { setLoggedInUser } from "./store/slice/baseSlice";
 
 import Navbar from "./layouts/Navbar";
 import HomePage from "./pages/Home.page";
@@ -15,20 +12,9 @@ import Login from "./features/auth/Login";
 import ProtectedRoute from "./components/authRoutes/ProtectedRoute";
 import PrivateRoute from "./components/authRoutes/PrivateRoute";
 
-import { getCookie } from "./helper";
 import "react-toastify/dist/ReactToastify.css";
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  const isLoggedIn = getCookie();
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      dispatch(setLoggedInUser(null));
-    }
-  }, [isLoggedIn, dispatch]);
-
   return (
     <>
       <Navbar />
