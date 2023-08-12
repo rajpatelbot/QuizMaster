@@ -1,12 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
-import Cookies from "js-cookie";
-import { navbarItems } from "../helper/constant";
-import { PrimaryButton, SecondaryButton } from "../components/buttons/buttons";
 import { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { ReduxStateInterface } from "../store/slice/types";
-import { IloggedInUser, ResponseType } from "../helper/types";
+import { Link, useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
+
 import { setLoggedInUser } from "../store/slice/baseSlice";
+import { ReduxStateInterface } from "../store/slice/types";
+
+import { PrimaryButton, SecondaryButton } from "../components/buttons/buttons";
+import { navbarItems } from "../helper/constant";
+import { IloggedInUser, ResponseType } from "../helper/types";
+
+import userAvatar from "../assets/userAvatar.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -56,7 +60,7 @@ const Navbar = () => {
                   data-dropdown-placement="bottom"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <img className="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-3.jpg" alt="user photo" />
+                  <img className="w-8 h-8 rounded-full" src={userAvatar} alt="user photo" />
                 </button>
 
                 <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">
@@ -69,6 +73,14 @@ const Navbar = () => {
                       <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white">
                         Dashboard
                       </a>
+                    </li>
+                    <li>
+                      <Link
+                        to="/post-questions"
+                        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                      >
+                        Post questions
+                      </Link>
                     </li>
                     <li>
                       <div

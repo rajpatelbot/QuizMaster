@@ -24,3 +24,11 @@ export const getCookie = () => {
   const token = Cookies.get("token");
   return Boolean(token);
 };
+
+export const getImageUrl = (image: string | File): string => {
+  if (typeof image === "string") {
+    return image;
+  } else {
+    return URL.createObjectURL(image);
+  }
+};
