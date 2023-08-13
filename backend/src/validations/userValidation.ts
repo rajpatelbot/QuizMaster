@@ -6,6 +6,7 @@ export const userSignupValidation = Joi.object({
     .email({ tlds: { allow: ["com", "net"] } })
     .required(),
   password: Joi.string().min(4).required(),
+  profile: Joi.string().required(),
 });
 
 export const userLoginValidation = Joi.object({
