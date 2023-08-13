@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { CookieOptions, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { hash } from "bcrypt";
 import User from "../models/User";
@@ -26,14 +26,18 @@ export const signup = async (req: Request, res: Response): IAuthFnReturn => {
   try {
     const payload = req.body as IUser;
 
-    const { error } = userSignupValidation.validate(payload);
+    console.log("payload", payload);
+
+    const newPayload = { ...payload, profile: req.file?.path ?? req.body.profile };
+
+    const { error } = userSignupValidation.validate(newPayload);
     if (error) {
       return res.status(BAD_REQUEST).json({ message: error.message, success: false });
     }
 
-    const { email, name, password } = payload;
+    const { email, name, password, profile } = newPayload;
 
-    if (!email || !name || !password) {
+    if (!email || !name || !password || !profile) {
       return res.status(BAD_REQUEST).json({ message: ALL_FIELDS_REQUIRED, success: false });
     }
 
@@ -43,11 +47,10 @@ export const signup = async (req: Request, res: Response): IAuthFnReturn => {
     }
 
     const hashedPassword: string = await hash(password, 10);
-
-    const newUserWithHashedPassword: IUser = new User({ ...payload, password: hashedPassword });
+    const newUserWithHashedPassword: IUser = new User({ ...newPayload, password: hashedPassword });
 
     const newUser = await newUserWithHashedPassword.save();
-    return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, user: newUser, success: true });
+    return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, data: newUser, success: true });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
@@ -78,17 +81,19 @@ export const login = async (req: Request, res: Response): IAuthFnReturn => {
       return res.status(BAD_REQUEST).json({ message: INVALID_CREDENTIALS, success: false });
     } else {
       const token = webToken(existedUser._id as string, existedUser.email as Partial<IUser>);
-      const cookieOptions = {
+
+      const cookieOptions: CookieOptions = {
+        secure: false,
         httpOnly: true,
-        secure: true,
         maxAge: COOKIE_EXPIRES_IN,
       };
 
       if (token) {
         res.cookie("token", token, cookieOptions);
       }
+
+      return res.status(OK).json({ message: LOGIN_SUCCESSFULLY, data: existedUser, token: token, success: true });
     }
-    return res.status(OK).json({ message: LOGIN_SUCCESSFULLY, user: existedUser, success: true });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
