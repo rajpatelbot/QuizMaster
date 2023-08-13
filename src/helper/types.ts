@@ -25,4 +25,5 @@ export interface IloggedInUser {
   name: string;
   email: string;
   createdAt: string;
+  profile: string;
 }

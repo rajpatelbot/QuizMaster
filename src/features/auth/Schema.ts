@@ -4,7 +4,7 @@ export const SignupValidationSchema = object({
   name: string().required("Required"),
   email: string().email("Invalid email").required("Required"),
   password: string().min(4, "Too Short!").max(16, "Too Long!").required("Required"),
-  profileImage: string().required("Required"),
+  profile: string().required("Required"),
 });
 
 export const LoginValidationSchema = object({

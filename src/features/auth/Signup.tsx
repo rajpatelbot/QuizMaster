@@ -9,16 +9,19 @@ import { PrimaryButton, SecondaryButton } from "../../components/buttons/buttons
 import { ISignupFormState } from "./types";
 import { onSignup } from "../../api/auth";
 import avatarImg from "../../assets/userAvatar.png";
+import { getImageUrl } from "../../helper";
+import { useNavigate } from "react-router-dom";
 
 const initialSignupValues: ISignupFormState = {
   name: "",
   email: "",
   password: "",
-  profileImage: avatarImg,
+  profile: avatarImg,
 };
 
 const Signup = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const imageRef = useRef() as RefObject<HTMLInputElement>;
 
@@ -30,11 +33,11 @@ const Signup = () => {
   });
 
   const handleSignup = useCallback((values: ISignupFormState) => {
-    onSignup(values, dispatch);
+    onSignup(values, dispatch, navigate);
   }, []);
 
   return (
-    <div className="bg-white dark:bg-gray-900" style={{ height: "90vh" }}>
+    <div className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto h-full flex flex-col max-w-xl justify-center">
         <Formik initialValues={initialSignupValues} validationSchema={SignupValidationSchema} onSubmit={handleSignup}>
           {({ dirty, values, handleBlur, handleChange, setFieldValue, errors, touched }) => (
@@ -42,18 +45,18 @@ const Signup = () => {
               {/* Profile */}
               <div className="mb-6">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 flex-none justify-center m-auto relative">
-                  <img alt="Profile Image" className="rounded-full border-2 bg-gray-300 h-full w-full object-cover" src={values.profileImage ? values.profileImage : avatarImg} />
+                  <img alt="Profile" className="rounded-full border-2 bg-gray-300 h-full w-full object-cover" src={values.profile ? getImageUrl(values.profile) : avatarImg} />
                   <label className="absolute flex items-center justify-center bottom-0 right-2 bg-primary rounded-full p-1 bg-blue-500 cursor-pointer border-2">
                     <AiFillCamera className="w-4 h-4 text-white" />
                     <input
                       ref={imageRef}
                       id="file_input"
-                      name="image"
+                      name="profile"
                       type="file"
                       placeholder="Please upload profile image"
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                         if (e?.target?.files?.[0]) {
-                          setFieldValue("image", e?.target?.files?.[0]);
+                          setFieldValue("profile", e?.target?.files?.[0]);
                         }
                       }}
                       accept="image/jpg,image/png,image/jpeg"
@@ -65,7 +68,7 @@ const Signup = () => {
                 <label className="block my-2 text-center text-sm font-medium text-gray-900 dark:text-white" htmlFor="file_input">
                   Profile photo
                 </label>
-                {errors.profileImage && touched.profileImage && <div className="text-red-500">{errors.profileImage}</div>}
+                {errors.profile && touched.profile && <div className="text-red-500">{errors.profile}</div>}
               </div>
 
               {/* Name */}

@@ -11,14 +11,17 @@ import { IloggedInUser, ResponseType } from "../helper/types";
 import { handleErrorResponse } from "../helper";
 import { COOKIE_EXPIRES_IN } from "../helper/constant";
 
-export const onSignup = async (payload: ISignupFormState, dispatch: Dispatch) => {
+export const onSignup = async (payload: ISignupFormState, dispatch: Dispatch, navigate: NavigateFunction) => {
   try {
     dispatch(setLoading(true));
 
-    const response = await apiService.post(api.signup, payload);
+    const response = await apiService.post(api.signup, payload, { headers: { "Content-Type": "multipart/form-data" } });
+
     const data: ResponseType<IloggedInUser> = response.data;
 
     successToast(data.message);
+
+    navigate("/login");
   } catch (error) {
     handleErrorResponse(error as AxiosError);
   } finally {

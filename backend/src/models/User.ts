@@ -16,6 +16,10 @@ const UserSchema: Schema = new mongoose.Schema(
       type: String,
       required: [true, "Please provide an password"],
     },
+    profile: {
+      type: String,
+      required: [true, "Please provide a profile"],
+    },
   },
   {
     timestamps: true,

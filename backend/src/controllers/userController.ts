@@ -26,14 +26,18 @@ export const signup = async (req: Request, res: Response): IAuthFnReturn => {
   try {
     const payload = req.body as IUser;
 
-    const { error } = userSignupValidation.validate(payload);
+    console.log("payload", payload);
+
+    const newPayload = { ...payload, profile: req.file?.path ?? req.body.profile };
+
+    const { error } = userSignupValidation.validate(newPayload);
     if (error) {
       return res.status(BAD_REQUEST).json({ message: error.message, success: false });
     }
 
-    const { email, name, password } = payload;
+    const { email, name, password, profile } = newPayload;
 
-    if (!email || !name || !password) {
+    if (!email || !name || !password || !profile) {
       return res.status(BAD_REQUEST).json({ message: ALL_FIELDS_REQUIRED, success: false });
     }
 
@@ -43,8 +47,7 @@ export const signup = async (req: Request, res: Response): IAuthFnReturn => {
     }
 
     const hashedPassword: string = await hash(password, 10);
-
-    const newUserWithHashedPassword: IUser = new User({ ...payload, password: hashedPassword });
+    const newUserWithHashedPassword: IUser = new User({ ...newPayload, password: hashedPassword });
 
     const newUser = await newUserWithHashedPassword.save();
     return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, data: newUser, success: true });

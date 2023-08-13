@@ -7,7 +7,7 @@ import { setLoggedInUser } from "../store/slice/baseSlice";
 import { ReduxStateInterface } from "../store/slice/types";
 
 import { PrimaryButton, SecondaryButton } from "../components/buttons/buttons";
-import { navbarItems } from "../helper/constant";
+import { API_ENDPOINT, navbarItems } from "../helper/constant";
 import { IloggedInUser, ResponseType } from "../helper/types";
 
 import userAvatar from "../assets/userAvatar.png";
@@ -60,7 +60,7 @@ const Navbar = () => {
                   data-dropdown-placement="bottom"
                 >
                   <span className="sr-only">Open user menu</span>
-                  <img className="w-8 h-8 rounded-full" src={userAvatar} alt="user photo" />
+                  <img className="w-8 h-8 rounded-full" src={API_ENDPOINT + loggedIn?.data?.profile ?? userAvatar} alt="user photo" />
                 </button>
 
                 <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600" id="user-dropdown">

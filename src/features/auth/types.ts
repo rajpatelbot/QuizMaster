@@ -2,7 +2,7 @@ export interface ISignupFormState {
   name: string;
   email: string;
   password: string;
-  profileImage: string;
+  profile: string;
 }
 
 export interface ILoginFormState {
