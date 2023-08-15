@@ -1,11 +1,11 @@
 import { Router } from "express";
-import userRoutes from "./auth";
-import postQuestion from "./postQuestions";
+import userRoutes from "./authRoute";
+import postQuestionRoute from "./quesModuleRoute";
 
 const allRoutes = Router();
 
 allRoutes.use("/user", userRoutes);
 
-allRoutes.use("/api", postQuestion);
+allRoutes.use("/api", postQuestionRoute);
 
 export default allRoutes;

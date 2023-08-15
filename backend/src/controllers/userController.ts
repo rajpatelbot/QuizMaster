@@ -19,14 +19,12 @@ import {
   OK,
 } from "../constants";
 
-import { IAuthFnReturn } from "./types";
+import { IControllerFnReturn } from "./types";
 import { IUser } from "../types/global.type";
 
-export const signup = async (req: Request, res: Response): IAuthFnReturn => {
+export const signup = async (req: Request, res: Response): IControllerFnReturn => {
   try {
     const payload = req.body as IUser;
-
-    console.log("payload", payload);
 
     const newPayload = { ...payload, profile: req.file?.path ?? req.body.profile };
 
@@ -56,7 +54,7 @@ export const signup = async (req: Request, res: Response): IAuthFnReturn => {
   }
 };
 
-export const login = async (req: Request, res: Response): IAuthFnReturn => {
+export const login = async (req: Request, res: Response): IControllerFnReturn => {
   try {
     const payload = req.body as Partial<IUser>;
 

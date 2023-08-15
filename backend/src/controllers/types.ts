@@ -1,3 +1,3 @@
 import { Response } from "express";
 
-export type IAuthFnReturn = Promise<Response<number, Record<string, boolean>>>;
+export type IControllerFnReturn = Promise<Response<number, Record<string, boolean>>>;
