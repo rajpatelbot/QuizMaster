@@ -28,7 +28,7 @@ export const getCookie = () => {
 export const getImageUrl = (image: string | File): string => {
   if (typeof image === "string") {
     return image;
-  } else {
-    return URL.createObjectURL(image);
   }
+
+  return URL.createObjectURL(image);
 };
