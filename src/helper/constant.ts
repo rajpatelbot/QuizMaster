@@ -1,29 +1,27 @@
-import { ILanguage, ILevel, INavItems } from "./types";
+import { ECategory, EDifficulty } from "../features/questionModule/types";
+import { ICategory, IDifficulty, INavItems } from "./types";
 
-export const languages: ILanguage[] = [
+export const categories: ICategory[] = [
   {
-    option: "JavaScript",
+    category: ECategory.JAVASCRIPT,
   },
   {
-    option: "React.js",
+    category: ECategory.REACT,
   },
   {
-    option: "TypeScript",
+    category: ECategory.TYPESCRIPT,
   },
 ];
 
-export const level: ILevel[] = [
+export const difficulties: IDifficulty[] = [
   {
-    id: "level-1",
-    level: "Easy",
+    difficulty: EDifficulty.EASY,
   },
   {
-    id: "level-2",
-    level: "Medium",
+    difficulty: EDifficulty.MEDIUM,
   },
   {
-    id: "level-3",
-    level: "Hard",
+    difficulty: EDifficulty.HARD,
   },
 ];
 

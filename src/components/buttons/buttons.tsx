@@ -3,8 +3,8 @@ import Loader from "../Loader";
 
 interface IButtons {
   text: string;
+  type: "button" | "submit" | "reset";
   route?: string;
-  type?: "button" | "submit" | "reset" | undefined;
   loading?: boolean;
   disabled?: boolean;
   className?: string;

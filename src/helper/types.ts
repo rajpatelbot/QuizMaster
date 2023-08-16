@@ -1,10 +1,13 @@
-export interface ILevel {
-  id: string;
-  level: string;
+export type TDifficulty = "easy" | "medium" | "hard";
+
+export type TCategory = "JavaScript" | "React" | "TypeScript";
+
+export interface IDifficulty {
+  difficulty: TDifficulty;
 }
 
-export interface ILanguage {
-  option: string;
+export interface ICategory {
+  category: TCategory;
 }
 
 export interface INavItems {
