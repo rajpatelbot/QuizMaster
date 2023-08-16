@@ -7,6 +7,7 @@ export interface IDifficulty {
 }
 
 export interface ICategory {
+  label: TCategory;
   category: TCategory;
 }
 

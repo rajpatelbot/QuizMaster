@@ -9,6 +9,8 @@ import Quiz from "./pages/Quiz.page";
 import Signup from "./features/auth/Signup";
 import Login from "./features/auth/Login";
 
+import PostQuestionsPage from "./features/questionModule";
+
 import ProtectedRoute from "./components/authRoutes/ProtectedRoute";
 import PrivateRoute from "./components/authRoutes/PrivateRoute";
 
@@ -40,6 +42,15 @@ const App = () => {
         />
 
         <Route
+          path="/post-questions"
+          element={
+            <PrivateRoute>
+              <PostQuestionsPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path="/signup"
           element={
             <ProtectedRoute>
@@ -47,6 +58,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/login"
           element={

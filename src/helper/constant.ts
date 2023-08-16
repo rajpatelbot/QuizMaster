@@ -3,12 +3,15 @@ import { ICategory, IDifficulty, INavItems } from "./types";
 
 export const categories: ICategory[] = [
   {
+    label: ECategory.JAVASCRIPT,
     category: ECategory.JAVASCRIPT,
   },
   {
+    label: ECategory.REACT,
     category: ECategory.REACT,
   },
   {
+    label: ECategory.TYPESCRIPT,
     category: ECategory.TYPESCRIPT,
   },
 ];

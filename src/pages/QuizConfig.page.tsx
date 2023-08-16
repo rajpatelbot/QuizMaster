@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { languages, level } from "../helper/constant";
+import { categories, difficulties } from "../helper/constant";
 
 const QuizConfig = () => {
   const navigate = useNavigate();
@@ -7,9 +7,7 @@ const QuizConfig = () => {
   return (
     <section className="bg-white dark:bg-gray-900" style={{ height: "90vh" }}>
       <div className="px-4 mx-auto max-w-screen-xl lg:py-16 h-full flex flex-col">
-        <p className="my-8 text-lg font-normal text-center text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">
-          Quiz Configuaration
-        </p>
+        <p className="my-8 text-lg font-normal text-center text-gray-500 lg:text-xl sm:px-16 lg:px-48 dark:text-gray-400">Quiz Configuaration</p>
 
         <form className="max-w-xl w-full mx-auto">
           {/* <div
@@ -28,18 +26,15 @@ const QuizConfig = () => {
               id="countries"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
             >
-              {languages.map((language, index) => (
-                <option key={index}>{language.option}</option>
+              {categories.map((language, index) => (
+                <option key={index}>{language.category}</option>
               ))}
             </select>
           </div>
 
           <div className="my-5 flex gap-5">
             <div className="flex-1">
-              <label
-                htmlFor="numberofquestion"
-                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-              >
+              <label htmlFor="numberofquestion" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                 No. of Questions
               </label>
               <input
@@ -65,17 +60,17 @@ const QuizConfig = () => {
           <fieldset className="my-5">
             <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select a level</legend>
             <div className="flex items-center gap-5">
-              {level.map((data, index) => (
+              {difficulties.map((data, index) => (
                 <div className="flex items-center" key={index}>
                   <input
                     id="level-option-1"
                     type="radio"
                     name="level"
-                    value={data.level}
+                    value={data.difficulty}
                     className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
                   />
-                  <label htmlFor={data.id} className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                    {data.level}
+                  <label htmlFor={data.difficulty} className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                    {data.difficulty}
                   </label>
                 </div>
               ))}
