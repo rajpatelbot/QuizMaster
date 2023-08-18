@@ -25,7 +25,7 @@ export interface ResponseType<T> {
 }
 
 export interface IloggedInUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   createdAt: string;

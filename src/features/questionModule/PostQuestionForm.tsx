@@ -1,21 +1,26 @@
 import Select, { SingleValue } from "react-select";
-import { Field, Form, FormikProps } from "formik";
-import { useSelector } from "react-redux";
+import { Field, FieldArray, Form, FormikProps } from "formik";
 import classNames from "classnames";
+
+import { useSelector } from "react-redux";
 import { ReduxStateInterface } from "../../store/slice/types";
+
 import { PrimaryButton, SecondaryButton } from "../../components/buttons/buttons";
+
 import { categories, difficulties } from "../../helper/constant";
 import { ICategory } from "../../helper/types";
 import { IQuestionsModule } from "./types";
-import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
 
 const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldValue, setFieldTouched }: FormikProps<IQuestionsModule>) => {
   const loading = useSelector((state: ReduxStateInterface) => state.base.loading);
 
-  const inputClassName = classNames("border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5", {
-    "bg-slate-200": loading,
-    "bg-white border": !loading,
-  });
+  const inputClassName = classNames(
+    "border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+    {
+      "bg-slate-200": loading,
+      "bg-white border": !loading,
+    },
+  );
 
   const handleCategoryChange = (selectedOption: SingleValue<ICategory>) => {
     setFieldValue("category", selectedOption?.category ?? null);
@@ -49,7 +54,16 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
           <label htmlFor="duration" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
             Duration
           </label>
-          <input id="duration" type="number" name="duration" value={values.duration} onChange={handleChange} onBlur={handleBlur} placeholder="60s" className={inputClassName} />
+          <input
+            id="duration"
+            type="number"
+            name="duration"
+            value={values.duration}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="60s"
+            className={inputClassName}
+          />
         </div>
       </div>
 
@@ -75,69 +89,135 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
         </div>
       </fieldset>
 
-      {/* Questions */}
-      <div className="mb-5">
-        <label htmlFor="Questions" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Questions
-        </label>
-        <div className="flex gap-3">
-          <input id="Questions" type="text" name="Questions" onBlur={handleBlur} placeholder="Enter the question" className={inputClassName} />
-        </div>
-      </div>
+      {/* Question and Answer section */}
+      <div className="my-5">
+        <FieldArray name="questions">
+          {({ push, remove }) => (
+            <>
+              <SecondaryButton
+                text={"Add Question"}
+                type={"button"}
+                callbackFn={() => push({ question: "", options: [""], correctAnswer: "", point: 0 })}
+              />
+              {values.questions?.map((question, index) => (
+                <div key={index} className="my-5">
+                  {/* Question */}
+                  <div className="mb-5">
+                    <label htmlFor={`questions.${index}.question`} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                      Question {index + 1}
+                    </label>
+                    <input
+                      id={`questions.${index}.question`}
+                      type="text"
+                      name={`questions.${index}.question`}
+                      onBlur={handleBlur}
+                      value={question.question}
+                      onChange={handleChange}
+                      placeholder="Enter the question"
+                      className={inputClassName}
+                    />
+                  </div>
 
-      {/* Options */}
-      <div className="mb-5">
-        <label htmlFor="options" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          Options
-        </label>
-        <div className="flex gap-3">
-          <input id="options" type="text" name="options" onBlur={handleBlur} placeholder="Enter the option" className={inputClassName} />
-          <SecondaryButton text="Add" type="button" loading={loading} disabled={loading || !dirty} className="w-36" />
-        </div>
-        <div className="my-5 flex items-center flex-wrap gap-8 gap-y-5">
-          <div className="flex items-center gap-1">
-            <p className="mr-2">Option 1</p>
-            <AiOutlineEdit className="text-green-500 cursor-pointer" />
-            <AiOutlineDelete className="text-red-500 cursor-pointer" />
-          </div>
-        </div>
-      </div>
+                  {/* Options */}
+                  <FieldArray name={`questions.${index}.options`}>
+                    {({ push: pushOption, remove: removeOption }) => (
+                      <>
+                        {/* Add button for adding options */}
+                        <SecondaryButton
+                          text="Add Options"
+                          type="button"
+                          loading={loading}
+                          disabled={loading || !dirty}
+                          className="w-36"
+                          callbackFn={() => pushOption("")}
+                        />
+                        {question.options.map((option, optionIndex) => (
+                          <div key={optionIndex}>
+                            {/* Option */}
+                            <div className="mb-5">
+                              <label
+                                htmlFor={`questions.${index}.options.${optionIndex}`}
+                                className="block my-2 text-sm font-medium text-gray-900 dark:text-white"
+                              >
+                                Option {optionIndex + 1}
+                              </label>
+                              <div className="flex gap-3">
+                                <input
+                                  id={`questions.${index}.options.${optionIndex}`}
+                                  type="text"
+                                  name={`questions.${index}.options.${optionIndex}`}
+                                  value={option}
+                                  onChange={handleChange}
+                                  onBlur={handleBlur}
+                                  placeholder="Enter the option"
+                                  className={inputClassName}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        ))}
+                      </>
+                    )}
+                  </FieldArray>
 
-      <div className="my-5 gap-3 flex">
-        {/* Correct Ans */}
-        <div className="flex-1">
-          <label htmlFor="correctAnswer" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Correct answer
-          </label>
-          <div className="flex">
-            <input id="correctAnswer" type="text" name="correctAnswer" onBlur={handleBlur} placeholder="Enter the correct answer" className={inputClassName} />
-          </div>
-        </div>
+                  {/* Correct Answer */}
+                  <div className="mb-5 flex gap-3">
+                    <div className="flex-1">
+                      <label
+                        htmlFor={`questions.${index}.correctAnswer`}
+                        className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                      >
+                        Correct Answer
+                      </label>
+                      <input
+                        id={`questions.${index}.correctAnswer`}
+                        type="text"
+                        name={`questions.${index}.correctAnswer`}
+                        onBlur={handleBlur}
+                        value={question.correctAnswer}
+                        onChange={handleChange}
+                        placeholder="Enter the correct answer"
+                        className={inputClassName}
+                      />
+                    </div>
 
-        {/* Per question Point */}
-        <div className="flex-1">
-          <label htmlFor="point" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-            Per question Point
-          </label>
-          <div className="flex">
-            <input id="point" type="number" name="point" onBlur={handleBlur} placeholder="Enter a point" className={inputClassName} />
-          </div>
-        </div>
-      </div>
+                    {/* Point */}
+                    <div className="flex-1">
+                      <label htmlFor={`questions.${index}.point`} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        Point
+                      </label>
+                      <input
+                        id={`questions.${index}.point`}
+                        type="number"
+                        name={`questions.${index}.point`}
+                        onBlur={handleBlur}
+                        value={question.point}
+                        onChange={handleChange}
+                        placeholder="Enter a point"
+                        className={inputClassName}
+                      />
+                    </div>
+                  </div>
 
-      {/* Question image */}
-      <div className="mb-5">
-        <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor="quesImg">
-          Upload question image
-        </label>
+                  {/* Question image */}
+                  <div className="mb-5">
+                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor={`questions.${index}.quesImg`}>
+                      Upload question image
+                    </label>
 
-        <input
-          className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-          aria-describedby="user_avatar_help"
-          id="quesImg"
-          type="file"
-          accept="image/*"
-        />
+                    <input
+                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+                      aria-describedby="user_avatar_help"
+                      id={`questions.${index}.quesImg`}
+                      type="file"
+                      accept="image/*"
+                    />
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+        </FieldArray>
       </div>
 
       {/* Buttons */}
