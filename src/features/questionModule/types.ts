@@ -17,7 +17,7 @@ export interface IQuestionsModule {
   category: TCategory | null;
   difficulty: TDifficulty | null;
   duration: number;
-  createdBy: IloggedInUser["id"];
+  createdBy: IloggedInUser["_id"];
 }
 
 export interface IQuestions {

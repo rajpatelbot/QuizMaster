@@ -19,7 +19,7 @@ const PostQuestionsPage = () => {
 
   const loggedIn: ResponseType<IloggedInUser> | null = useSelector((state: ReduxStateInterface) => state.base.loggedInUser);
 
-  const handleQuestionsSubmit = (values: IQuestionsModule) => {
+  const handleQuestionsPost = (values: IQuestionsModule) => {
     const newPayload: IQuestionsModule = { ...values, createdBy: loggedIn?.data?._id ?? "" };
     postQuestions(newPayload, dispatch);
   };
@@ -27,7 +27,7 @@ const PostQuestionsPage = () => {
   return (
     <div className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto h-full flex flex-col max-w-3xl justify-center">
-        <Formik initialValues={initialValues} onSubmit={handleQuestionsSubmit}>
+        <Formik initialValues={initialValues} onSubmit={handleQuestionsPost}>
           {(props) => <PostQuestionForm {...props} />}
         </Formik>
       </div>

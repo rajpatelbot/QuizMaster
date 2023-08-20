@@ -6,7 +6,7 @@ interface IButtons {
   loading?: boolean;
   disabled?: boolean;
   className?: string;
-  callbackFn?: () => void;
+  callbackFn?: (params?: string) => void;
 }
 
 export const PrimaryButton = ({ text, type, loading, disabled, className, callbackFn }: IButtons) => {
@@ -16,7 +16,9 @@ export const PrimaryButton = ({ text, type, loading, disabled, className, callba
         type={type}
         disabled={disabled}
         onClick={() => (callbackFn ? callbackFn() : null)}
-        className={`${disabled || loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"} text-white font-medium rounded-lg text-sm px-5 mr-2 py-2.5 ${className}`}
+        className={`${
+          disabled || loading ? "bg-blue-400 cursor-not-allowed" : "bg-blue-500"
+        } text-white font-medium rounded-lg text-sm px-5 mr-2 py-2.5 ${className}`}
       >
         {loading ? <Loader /> : text}
       </button>
