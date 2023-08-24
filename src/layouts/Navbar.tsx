@@ -34,6 +34,10 @@ const Navbar = () => {
     window.location.reload();
   }, []);
 
+  const handleNavigate = useCallback((path: string) => {
+    navigate(path);
+  }, []);
+
   return (
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
@@ -46,8 +50,8 @@ const Navbar = () => {
           <div className="flex md:order-2 items-center justify-center">
             {!isLoggedIn ? (
               <>
-                <SecondaryButton text="Login" route="/login" type="button" />
-                <PrimaryButton text="Signup" route="/signup" type="button" />
+                <SecondaryButton text="Login" callbackFn={() => handleNavigate("/login")} type="button" />
+                <PrimaryButton text="Signup" callbackFn={() => handleNavigate("/signup")} type="button" />
               </>
             ) : (
               <div className="flex items-center md:order-2">
