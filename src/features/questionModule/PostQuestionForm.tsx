@@ -11,7 +11,16 @@ import { categories, difficulties } from "../../helper/constant";
 import { ICategory } from "../../helper/types";
 import { IQuestionsModule } from "./types";
 
-const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldValue, setFieldTouched }: FormikProps<IQuestionsModule>) => {
+const PostQuestionForm = ({
+  values,
+  handleChange,
+  handleBlur,
+  dirty,
+  errors,
+  touched,
+  setFieldValue,
+  setFieldTouched,
+}: FormikProps<IQuestionsModule>) => {
   const loading = useSelector((state: ReduxStateInterface) => state.base.loading);
 
   const inputClassName = classNames(
@@ -47,6 +56,7 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
             getOptionValue={(option) => option.category}
             isDisabled={loading}
           />
+          {errors.category && touched.category && <div className="text-red-500">{errors.category}</div>}
         </div>
 
         {/* Duration */}
@@ -64,6 +74,7 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
             placeholder="60s"
             className={inputClassName}
           />
+          {errors.duration && touched.duration && <div className="text-red-500">{errors.duration}</div>}
         </div>
       </div>
 
@@ -87,12 +98,13 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
             </div>
           ))}
         </div>
+        {errors.difficulty && touched.difficulty && <div className="text-red-500">{errors.difficulty}</div>}
       </fieldset>
 
       {/* Question and Answer section */}
       <div className="my-5">
         <FieldArray name="questions">
-          {({ push, remove }) => (
+          {({ push }) => (
             <>
               <SecondaryButton
                 text={"Add Question"}
@@ -120,7 +132,7 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
 
                   {/* Options */}
                   <FieldArray name={`questions.${index}.options`}>
-                    {({ push: pushOption, remove: removeOption }) => (
+                    {({ push: pushOption }) => (
                       <>
                         {/* Add button for adding options */}
                         <SecondaryButton
@@ -197,21 +209,6 @@ const PostQuestionForm = ({ values, handleChange, handleBlur, dirty, setFieldVal
                         className={inputClassName}
                       />
                     </div>
-                  </div>
-
-                  {/* Question image */}
-                  <div className="mb-5">
-                    <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white" htmlFor={`questions.${index}.quesImg`}>
-                      Upload question image
-                    </label>
-
-                    <input
-                      className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
-                      aria-describedby="user_avatar_help"
-                      id={`questions.${index}.quesImg`}
-                      type="file"
-                      accept="image/*"
-                    />
                   </div>
                 </div>
               ))}

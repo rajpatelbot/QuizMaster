@@ -5,6 +5,7 @@ import PostQuestionForm from "./PostQuestionForm";
 import { postQuestions } from "../../api/questionModule";
 import { IloggedInUser, ResponseType } from "../../helper/types";
 import { IQuestionsModule } from "./types";
+import { PostQuestionSchema } from "./Schema";
 
 const initialValues: IQuestionsModule = {
   questions: null,
@@ -27,7 +28,7 @@ const PostQuestionsPage = () => {
   return (
     <div className="bg-white dark:bg-gray-900">
       <div className="py-8 px-4 mx-auto h-full flex flex-col max-w-3xl justify-center">
-        <Formik initialValues={initialValues} onSubmit={handleQuestionsPost}>
+        <Formik initialValues={initialValues} validationSchema={PostQuestionSchema} onSubmit={handleQuestionsPost}>
           {(props) => <PostQuestionForm {...props} />}
         </Formik>
       </div>
