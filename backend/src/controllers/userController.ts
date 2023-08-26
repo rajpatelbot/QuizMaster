@@ -83,7 +83,8 @@ export const login = async (req: Request, res: Response): IControllerFnReturn =>
       const cookieOptions: CookieOptions = {
         secure: false,
         httpOnly: true,
-        expires: new Date(COOKIE_EXPIRES_IN),
+        // maxAge: COOKIE_EXPIRES_IN,
+        expires: new Date(Date.now() + COOKIE_EXPIRES_IN),
       };
 
       if (token) {

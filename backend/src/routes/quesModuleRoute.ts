@@ -1,9 +1,11 @@
 import { Router } from "express";
 import { userAuthMiddleware } from "../middlewares/userAuth";
-import { postQuestions } from "../controllers/quesModuleController";
+import { getAllQuestionsModules, postQuestions } from "../controllers/quesModuleController";
 
-const postQuestionRoute = Router();
+const questionModuleRoute = Router();
 
-postQuestionRoute.post("/post-questions", userAuthMiddleware, postQuestions);
+questionModuleRoute.post("/post-questions", userAuthMiddleware, postQuestions);
 
-export default postQuestionRoute;
+questionModuleRoute.get("/get-questions-modules", getAllQuestionsModules);
+
+export default questionModuleRoute;

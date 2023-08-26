@@ -22,7 +22,7 @@ export enum ECategory {
   TYPESCRIPT = "TypeScript",
 }
 
-export interface IQuestionsModule extends Document {
+export interface IQuestionsModule {
   questions: IQuestions[];
   category: TCategory;
   difficulty: TDifficulty;
