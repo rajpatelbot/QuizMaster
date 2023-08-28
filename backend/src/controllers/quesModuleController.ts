@@ -17,7 +17,7 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
   try {
     const payload = req.body as IQuestionsModule;
 
-    const totalPoint = payload.questions.reduce((acc, curr) => acc + curr.point, 0);
+    const totalPoint = payload.questions?.reduce((acc, curr) => acc + curr.point, 0);
 
     const newQuestion: IQuestionsModule = { ...payload, totalPoint };
 
@@ -34,6 +34,8 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
 
     return res.status(BAD_REQUEST).json({ message: SOMETHING_WENT_WRONG, success: false });
   } catch (error) {
+    console.log(error);
+
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
 };

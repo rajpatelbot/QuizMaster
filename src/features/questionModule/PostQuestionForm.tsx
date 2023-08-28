@@ -112,9 +112,9 @@ const PostQuestionForm = ({
                 callbackFn={() => push({ question: "", options: [""], correctAnswer: "", point: 0 })}
               />
               {values.questions?.map((question, index) => (
-                <div key={index} className="my-5">
+                <div key={index} className="my-5 border-t-2 border-blue-500">
                   {/* Question */}
-                  <div className="mb-5">
+                  <div className="my-5">
                     <label htmlFor={`questions.${index}.question`} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                       Question {index + 1}
                     </label>

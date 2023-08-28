@@ -1,0 +1,14 @@
+service: quizApp-api
+frameworkVersion: "3"
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+
+functions:
+  signupUser:
+    handler: src/controllers/userController.handler
+    events:
+      --httpApi:
+        path: /user/signup
+        method: POST
