@@ -61,9 +61,6 @@ export const deleteQuestionsModuleById = async (req: Request, res: Response): IC
   const { id } = req.params;
   const deleteQuestionsModuleById = await PostQuestions.findByIdAndDelete(id);
 
-  const userIdExists = await PostQuestions.find({ createdBy: id });
-  console.log(userIdExists);
-
   if (deleteQuestionsModuleById) {
     return res.status(OK).json({ message: "Question Module Deleted Successfully", success: true });
   } else {
