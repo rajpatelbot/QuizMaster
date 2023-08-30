@@ -34,16 +34,16 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
 
     return res.status(BAD_REQUEST).json({ message: SOMETHING_WENT_WRONG, success: false });
   } catch (error) {
-    console.log(error);
-
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
 };
 
 export const getAllQuestionsModules = async (_: Request, res: Response): IControllerFnReturn => {
   const getAllQuestionsModules = await PostQuestions.find();
+
+  const updatedResponse = await PostQuestions.find().populate("createdBy");
   if (getAllQuestionsModules) {
-    return res.status(OK).json({ data: getAllQuestionsModules, success: true });
+    return res.status(OK).json({ data: updatedResponse, success: true });
   } else {
     return res.status(BAD_REQUEST).json({ message: SOMETHING_WENT_WRONG, success: false });
   }
