@@ -45,4 +45,4 @@ export const navbarItems: INavItems[] = [
 
 export const COOKIE_EXPIRES_IN = 24 * 60 * 60 * 1000;
 
-export const API_ENDPOINT = import.meta.env.VITE_BACKEND_API || "http://localhost:8000/";
+export const API_ENDPOINT = import.meta.env.VITE_BACKEND_API || "http://localhost:8000";

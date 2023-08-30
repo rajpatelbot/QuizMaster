@@ -13,11 +13,15 @@ export enum ECategory {
 }
 
 export interface IQuestionsModule {
+  _id?: string;
   questions: IQuestions[] | null;
   category: TCategory | null;
   difficulty: TDifficulty | null;
   duration: number;
-  createdBy: IloggedInUser["_id"];
+  totalPoint?: number;
+  createdBy: IloggedInUser;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface IQuestions {

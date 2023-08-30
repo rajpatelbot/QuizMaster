@@ -4,4 +4,5 @@ export const api = {
   signup: "/user/signup",
 
   postQuestions: "/api/post-questions",
+  getQuestionsModules: "/api/get-questions-modules",
 };

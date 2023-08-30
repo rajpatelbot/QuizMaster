@@ -1,3 +1,5 @@
+import { IQuestionsModule } from "../features/questionModule/types";
+
 export type TDifficulty = "easy" | "medium" | "hard";
 
 export type TCategory = "JavaScript" | "React" | "TypeScript";
@@ -30,4 +32,9 @@ export interface IloggedInUser {
   email: string;
   createdAt: string;
   profile: string;
+}
+
+export interface IQuestionsModuleResponse {
+  data: IQuestionsModule[];
+  success: boolean;
 }

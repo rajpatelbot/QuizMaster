@@ -5,7 +5,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const navigateToQuizConfig = () => {
-    navigate("/quiz-config");
+    navigate("/all-quizzes");
   };
 
   return (

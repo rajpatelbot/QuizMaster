@@ -3,8 +3,8 @@ import { ToastContainer } from "react-toastify";
 
 import Navbar from "./layouts/Navbar";
 import HomePage from "./pages/Home.page";
-import QuizConfig from "./pages/QuizConfig.page";
-import Quiz from "./pages/Quiz.page";
+import Quiz from "./pages/AllQuiz";
+import AllQuizzes from "./pages/AllQuiz";
 
 import Signup from "./features/auth/Signup";
 import Login from "./features/auth/Login";
@@ -23,14 +23,7 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/quiz-config"
-          element={
-            <PrivateRoute>
-              <QuizConfig />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/all-quizzes" element={<AllQuizzes />} />
 
         <Route
           path="/quiz"
