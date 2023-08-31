@@ -13,6 +13,7 @@ import PostQuestionsPage from "./features/questionModule";
 
 import ProtectedRoute from "./components/authRoutes/ProtectedRoute";
 import PrivateRoute from "./components/authRoutes/PrivateRoute";
+import Dashboard from "./components/Dashboard";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -31,6 +32,15 @@ const App = () => {
             <PrivateRoute>
               <Quiz />
             </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/dashboard/:id"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
           }
         />
 

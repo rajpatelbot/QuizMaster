@@ -97,3 +97,15 @@ export const login = async (req: Request, res: Response): IControllerFnReturn =>
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
 };
+
+export const getUserById = async (req: Request, res: Response): IControllerFnReturn => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) {
+      return res.status(BAD_REQUEST).json({ message: "User not found", success: false });
+    }
+    return res.status(OK).json({ data: user, success: true });
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
+  }
+};

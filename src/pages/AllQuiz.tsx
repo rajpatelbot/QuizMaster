@@ -1,15 +1,17 @@
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
+import { RiDeleteBin6Fill } from "react-icons/ri";
 import useFetch from "../hooks/useFetch";
 
 import { PrimaryButton } from "../components/buttons/buttons";
 import CardSkeletons from "../components/skeletons/CardSkeletons";
+import TimeStampBadge from "../components/TimeStampBadge";
+import Modal from "../components/Modal";
 
 import { API_ENDPOINT, categories } from "../helper/constant";
 import { IQuestionsModuleResponse } from "../helper/types";
 import { api } from "../config/api";
-import TimeStampBadge from "../components/TimeStampBadge";
 
 const AllQuizzes = () => {
   const naviagte = useNavigate();
@@ -40,6 +42,8 @@ const AllQuizzes = () => {
             </button>
           ))}
         </div>
+
+        <Modal id="popup-modal" message="Are you sure, You want to delete this question module?" />
 
         <div className={!isLoading ? "flex items-start w-full flex-wrap gap-4" : ""}>
           {isLoading ? (
@@ -78,12 +82,22 @@ const AllQuizzes = () => {
                     <span className={commonCardHeadingClassName}>Category</span>
                     <span className={commonCardClassName}>{item.category}</span>
                   </div>
-                  <div className="cursor-pointer" onClick={() => naviagte("")}>
+                  <div className="cursor-pointer" onClick={() => naviagte(`/dashboard/${item.createdBy._id}`)}>
                     <span className={commonCardHeadingClassName}>Created By</span>
                     <span className={commonCardClassName}>{item.createdBy.name}</span>
                   </div>
                 </div>
-                <PrimaryButton text={"Play Now"} type={"button"} />
+
+                <div className="flex items-center justify-between">
+                  <PrimaryButton text={"Play Now"} type={"button"} />
+
+                  <RiDeleteBin6Fill
+                    type="button"
+                    data-modal-target="popup-modal"
+                    data-modal-toggle="popup-modal"
+                    className="text-xl cursor-pointer text-red-700"
+                  />
+                </div>
               </div>
             ))
           )}
