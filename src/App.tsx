@@ -26,21 +26,14 @@ const App = () => {
 
         <Route path="/all-quizzes" element={<AllQuizzes />} />
 
+        <Route path="/dashboard/:id" element={<Dashboard />} />
+
         <Route
           path="/quiz"
           element={
             <PrivateRoute>
               <Quiz />
             </PrivateRoute>
-          }
-        />
-
-        <Route
-          path="/dashboard/:id"
-          element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
           }
         />
 

@@ -46,3 +46,6 @@ export const navbarItems: INavItems[] = [
 export const COOKIE_EXPIRES_IN = 24 * 60 * 60 * 1000;
 
 export const API_ENDPOINT = import.meta.env.VITE_BACKEND_API || "http://localhost:8000";
+
+export const defaultAvatar =
+  "https://firebasestorage.googleapis.com/v0/b/quiz-app-e7a43.appspot.com/o/profiles%2FuserAvatar.png?alt=media&token=af63895f-9cfd-4805-911a-94474cef81b5";

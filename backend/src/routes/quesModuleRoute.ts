@@ -13,7 +13,7 @@ questionModuleRoute.post("/post-questions", userAuthMiddleware, postQuestions);
 
 questionModuleRoute.get("/get-questions-modules", getAllQuestionsModules);
 
-questionModuleRoute.get("/get-questions-modules/:id", userAuthMiddleware, getQuestionsModuleById);
+questionModuleRoute.get("/get-questions-modules/:id", getQuestionsModuleById);
 
 questionModuleRoute.delete("/delete-questions-modules/:id", userAuthMiddleware, deleteQuestionsModuleById);
 
