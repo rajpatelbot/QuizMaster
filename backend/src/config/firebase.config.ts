@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getStorage } from "firebase/storage";
-import { apiKey, appId, authDomain, messagingSenderId, projectId, storageBucket } from "./env";
+import { apiKey, appId, authDomain, measurementId, messagingSenderId, projectId, storageBucket } from "./env";
 
 const firebaseConfig = {
   apiKey: apiKey,
@@ -9,7 +9,7 @@ const firebaseConfig = {
   storageBucket: storageBucket,
   messagingSenderId: messagingSenderId,
   appId: appId,
-  measurementId: messagingSenderId,
+  measurementId: measurementId,
 };
 
 /*
