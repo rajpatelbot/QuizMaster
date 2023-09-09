@@ -1,22 +1,25 @@
 import { RefObject, useCallback, useRef } from "react";
 import { Form, Formik } from "formik";
+import { useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { AiFillCamera } from "react-icons/ai";
+
 import { ReduxStateInterface } from "../../store/slice/types";
 import { SignupValidationSchema } from "./Schema";
+
 import { PrimaryButton, SecondaryButton } from "../../components/buttons/buttons";
-import { ISignupFormState } from "./types";
 import { onSignup } from "../../api/auth";
-import avatarImg from "../../assets/userAvatar.png";
+
+import { ISignupFormState } from "./types";
 import { getImageUrl } from "../../helper";
-import { useNavigate } from "react-router-dom";
+import { defaultAvatar } from "../../helper/constant";
 
 const initialSignupValues: ISignupFormState = {
   name: "",
   email: "",
   password: "",
-  profile: avatarImg,
+  profile: defaultAvatar,
 };
 
 const Signup = () => {
@@ -27,10 +30,13 @@ const Signup = () => {
 
   const loading = useSelector((state: ReduxStateInterface) => state.base.loading);
 
-  const inputClassName = classNames("border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5", {
-    "bg-slate-200": loading,
-    "bg-white border": !loading,
-  });
+  const inputClassName = classNames(
+    "border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+    {
+      "bg-slate-200": loading,
+      "bg-white border": !loading,
+    },
+  );
 
   const handleSignup = useCallback((values: ISignupFormState) => {
     onSignup(values, dispatch, navigate);
@@ -45,7 +51,11 @@ const Signup = () => {
               {/* Profile */}
               <div className="mb-6">
                 <div className="w-20 h-20 sm:w-24 sm:h-24 flex-none justify-center m-auto relative">
-                  <img alt="Profile" className="rounded-full border-2 bg-gray-300 h-full w-full object-cover" src={values.profile ? getImageUrl(values.profile) : avatarImg} />
+                  <img
+                    alt="Profile"
+                    className="rounded-full border-2 bg-gray-300 h-full w-full object-cover"
+                    src={values.profile ? getImageUrl(values.profile) : defaultAvatar}
+                  />
                   <label className="absolute flex items-center justify-center bottom-0 right-2 bg-primary rounded-full p-1 bg-blue-500 cursor-pointer border-2">
                     <AiFillCamera className="w-4 h-4 text-white" />
                     <input

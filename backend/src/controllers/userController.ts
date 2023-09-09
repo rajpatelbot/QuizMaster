@@ -1,6 +1,9 @@
-import { CookieOptions, Request, Response } from "express";
 import bcrypt from "bcrypt";
 import { hash } from "bcrypt";
+import { CookieOptions, Request, Response } from "express";
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { storage } from "../config/firebase.config";
+
 import User from "../models/User";
 import { userLoginValidation, userSignupValidation } from "../validations/userValidation";
 import { webToken } from "../utils/generateJWT";
@@ -19,44 +22,55 @@ import {
   OK,
 } from "../constants";
 
-import { IAuthFnReturn } from "./types";
+import { IControllerFnReturn } from "./types";
 import { IUser } from "../types/global.type";
 
-export const signup = async (req: Request, res: Response): IAuthFnReturn => {
+export const signup = async (req: Request, res: Response): IControllerFnReturn => {
   try {
     const payload = req.body as IUser;
 
-    console.log("payload", payload);
-
-    const newPayload = { ...payload, profile: req.file?.path ?? req.body.profile };
-
-    const { error } = userSignupValidation.validate(newPayload);
-    if (error) {
-      return res.status(BAD_REQUEST).json({ message: error.message, success: false });
+    if (!req.file) {
+      return res.status(BAD_REQUEST).json({ message: "No file uploaded", success: false });
     }
 
-    const { email, name, password, profile } = newPayload;
+    try {
+      const dateTime = new Date().toISOString().replace(/:/g, "-");
+      const storageRef = ref(storage, `profiles/${dateTime}-${req.file?.originalname}`);
 
-    if (!email || !name || !password || !profile) {
-      return res.status(BAD_REQUEST).json({ message: ALL_FIELDS_REQUIRED, success: false });
+      const metaData = {
+        contentType: req.file?.mimetype,
+      };
+
+      const snapshot = await uploadBytesResumable(storageRef, req.file?.buffer, metaData);
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      const newPayload = { ...payload, profile: downloadURL };
+      const { error } = userSignupValidation.validate(newPayload);
+      if (error) {
+        return res.status(BAD_REQUEST).json({ message: error.message, success: false });
+      }
+
+      const { email, password } = newPayload;
+      const existedUser: IUser | null = await User.findOne({ email });
+      if (existedUser) {
+        return res.status(BAD_REQUEST).json({ message: EMAIL_ALREADY_EXISTS, success: false });
+      }
+
+      const hashedPassword: string = await hash(password, 10);
+      const newUserWithHashedPassword: IUser = new User({ ...newPayload, password: hashedPassword });
+
+      const newUser = await newUserWithHashedPassword.save();
+      return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, data: newUser, success: true });
+    } catch (error) {
+      console.error("Error during upload:", error);
+      return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: "Error during upload", error, success: false });
     }
-
-    const existedUser: IUser | null = await User.findOne({ email });
-    if (existedUser) {
-      return res.status(BAD_REQUEST).json({ message: EMAIL_ALREADY_EXISTS, success: false });
-    }
-
-    const hashedPassword: string = await hash(password, 10);
-    const newUserWithHashedPassword: IUser = new User({ ...newPayload, password: hashedPassword });
-
-    const newUser = await newUserWithHashedPassword.save();
-    return res.status(CREATED).json({ message: ACCOUNT_CREATED_SUCCESSFULLY, data: newUser, success: true });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }
 };
 
-export const login = async (req: Request, res: Response): IAuthFnReturn => {
+export const login = async (req: Request, res: Response): IControllerFnReturn => {
   try {
     const payload = req.body as Partial<IUser>;
 
@@ -85,7 +99,8 @@ export const login = async (req: Request, res: Response): IAuthFnReturn => {
       const cookieOptions: CookieOptions = {
         secure: false,
         httpOnly: true,
-        maxAge: COOKIE_EXPIRES_IN,
+        // maxAge: COOKIE_EXPIRES_IN,
+        expires: new Date(Date.now() + COOKIE_EXPIRES_IN),
       };
 
       if (token) {
@@ -94,6 +109,18 @@ export const login = async (req: Request, res: Response): IAuthFnReturn => {
 
       return res.status(OK).json({ message: LOGIN_SUCCESSFULLY, data: existedUser, token: token, success: true });
     }
+  } catch (error) {
+    return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
+  }
+};
+
+export const getUserById = async (req: Request, res: Response): IControllerFnReturn => {
+  try {
+    const user = await User.findById(req.params.id).select("-password");
+    if (!user) {
+      return res.status(BAD_REQUEST).json({ message: "User not found", success: false });
+    }
+    return res.status(OK).json({ data: user, success: true });
   } catch (error) {
     return res.status(INTERNAL_SERVER_ERROR_CODE).json({ message: INTERNAL_SERVER_ERROR, error, success: false });
   }

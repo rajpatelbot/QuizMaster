@@ -8,10 +8,13 @@ export const INTERNAL_SERVER_ERROR_CODE = 500;
 export const ALL_FIELDS_REQUIRED = "All fields are required!";
 export const EMAIL_ALREADY_EXISTS = "Email already exists!";
 export const ACCOUNT_CREATED_SUCCESSFULLY = "Account created successfully!";
+export const QUESTION_POSTED_SUCCESSFULLY = "Question posted successfully!";
 export const INTERNAL_SERVER_ERROR = "Internal server error!";
 export const INVALID_CREDENTIALS = "Invalid credentials!";
 export const LOGIN_SUCCESSFULLY = "Login successfully!";
 export const UNAUTHORIZED = "Unauthorized user!";
+export const SOMETHING_WENT_WRONG = "Something went wrong!";
+export const NO_DATA_FOUND = "No data found!";
 
 export const COOKIE_EXPIRES_IN = 24 * 60 * 60 * 1000;
 export const JWT_EXPIRES_IN = 3600000;

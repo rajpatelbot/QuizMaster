@@ -3,14 +3,17 @@ import { ToastContainer } from "react-toastify";
 
 import Navbar from "./layouts/Navbar";
 import HomePage from "./pages/Home.page";
-import QuizConfig from "./pages/QuizConfig.page";
-import Quiz from "./pages/Quiz.page";
+import Quiz from "./pages/AllQuiz";
+import AllQuizzes from "./pages/AllQuiz";
 
 import Signup from "./features/auth/Signup";
 import Login from "./features/auth/Login";
 
+import PostQuestionsPage from "./features/questionModule";
+
 import ProtectedRoute from "./components/authRoutes/ProtectedRoute";
 import PrivateRoute from "./components/authRoutes/PrivateRoute";
+import Dashboard from "./components/Dashboard";
 
 import "react-toastify/dist/ReactToastify.css";
 
@@ -21,11 +24,13 @@ const App = () => {
       <Routes>
         <Route path="/" element={<HomePage />} />
 
+        <Route path="/all-quizzes" element={<AllQuizzes />} />
+
         <Route
-          path="/quiz-config"
+          path="/dashboard/:id"
           element={
             <PrivateRoute>
-              <QuizConfig />
+              <Dashboard />
             </PrivateRoute>
           }
         />
@@ -40,6 +45,15 @@ const App = () => {
         />
 
         <Route
+          path="/post-questions"
+          element={
+            <PrivateRoute>
+              <PostQuestionsPage />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
           path="/signup"
           element={
             <ProtectedRoute>
@@ -47,6 +61,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/login"
           element={
@@ -57,7 +72,18 @@ const App = () => {
         />
       </Routes>
 
-      <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} draggable pauseOnHover theme="light" />
+      <ToastContainer
+        position="bottom-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        draggable
+        pauseOnFocusLoss={false}
+        pauseOnHover
+        theme="light"
+      />
     </>
   );
 };

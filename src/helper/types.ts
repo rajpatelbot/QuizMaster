@@ -1,10 +1,16 @@
-export interface ILevel {
-  id: string;
-  level: string;
+import { IQuestionsModule } from "../features/questionModule/types";
+
+export type TDifficulty = "easy" | "medium" | "hard";
+
+export type TCategory = "JavaScript" | "React" | "TypeScript";
+
+export interface IDifficulty {
+  difficulty: TDifficulty;
 }
 
-export interface ILanguage {
-  option: string;
+export interface ICategory {
+  label: TCategory;
+  category: TCategory;
 }
 
 export interface INavItems {
@@ -21,9 +27,14 @@ export interface ResponseType<T> {
 }
 
 export interface IloggedInUser {
-  id: string;
+  _id: string;
   name: string;
   email: string;
   createdAt: string;
   profile: string;
+}
+
+export interface IQuestionsModuleResponse {
+  data: IQuestionsModule[];
+  success: boolean;
 }

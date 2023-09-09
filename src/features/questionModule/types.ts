@@ -1,14 +1,4 @@
-import { Document } from "mongoose";
-
-export interface IUser extends Document {
-  name: string;
-  email: string;
-  password: string;
-  profile: string;
-}
-
-export type TDifficulty = "easy" | "medium" | "hard";
-export type TCategory = "JavaScript" | "React" | "TypeScript";
+import { IloggedInUser, TCategory, TDifficulty } from "../../helper/types";
 
 export enum EDifficulty {
   EASY = "easy",
@@ -23,13 +13,15 @@ export enum ECategory {
 }
 
 export interface IQuestionsModule {
-  questions: IQuestions[];
+  _id?: string;
+  questions: IQuestions[] | null;
   title: string;
-  category: TCategory;
-  difficulty: TDifficulty;
+  category: TCategory | null;
+  difficulty: TDifficulty | null;
   duration: number;
-  totalPoint: number;
-  createdBy: IUser["_id"];
+  totalPoint?: number;
+  createdBy: IloggedInUser | null;
+  createdAt?: string;
 }
 
 export interface IQuestions {
