@@ -7,4 +7,5 @@ export const api = {
   postQuestions: "/api/post-questions",
   getQuestionsModules: "/api/get-questions-modules",
   getQuestionsModulesById: "/api/get-questions-modules/",
+  deleteQuestionsModulesById: "/api/delete-questions-modules/",
 };

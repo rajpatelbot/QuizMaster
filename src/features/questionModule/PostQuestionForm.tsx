@@ -24,7 +24,7 @@ const PostQuestionForm = ({
   const loading = useSelector((state: ReduxStateInterface) => state.base.loading);
 
   const inputClassName = classNames(
-    "border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5",
+    "border-gray-300 text-gray-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block w-full px-2.5",
     {
       "bg-slate-200": loading,
       "bg-white border": !loading,
@@ -38,6 +38,24 @@ const PostQuestionForm = ({
   return (
     <Form>
       <div className="mb-5 flex gap-3">
+        {/* Module Title */}
+        <div className="flex-1">
+          <label htmlFor="title" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+            Title
+          </label>
+          <input
+            id="title"
+            type="text"
+            name="title"
+            value={values.title}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            placeholder="Enter module title"
+            className={inputClassName}
+          />
+          {errors.title && touched.title && <div className="text-red-500">{errors.title}</div>}
+        </div>
+
         {/* Category */}
         <div className="flex-1">
           <label htmlFor="category" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -58,7 +76,9 @@ const PostQuestionForm = ({
           />
           {errors.category && touched.category && <div className="text-red-500">{errors.category}</div>}
         </div>
+      </div>
 
+      <div className="mb-5 flex gap-3">
         {/* Duration */}
         <div className="flex-1">
           <label htmlFor="duration" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -76,30 +96,30 @@ const PostQuestionForm = ({
           />
           {errors.duration && touched.duration && <div className="text-red-500">{errors.duration}</div>}
         </div>
-      </div>
 
-      {/* Difficulty */}
-      <fieldset className="my-5">
-        <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</legend>
-        <div role="group" aria-labelledby="my-difficulty-group" className="flex items-center gap-5">
-          {difficulties.map((data, i) => (
-            <div className="flex items-center" key={i}>
-              <Field
-                id="level-option-1"
-                type="radio"
-                name="difficulty"
-                value={data.difficulty}
-                onChange={handleChange}
-                className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label htmlFor={data.difficulty} className="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                {data.difficulty}
-              </label>
-            </div>
-          ))}
+        {/* Difficulty */}
+        <div className="flex-1">
+          <legend className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Difficulty</legend>
+          <div role="group" aria-labelledby="my-difficulty-group" className="flex items-center gap-5">
+            {difficulties.map((data, i) => (
+              <div className="flex items-center" key={i}>
+                <Field
+                  id="level-option-1"
+                  type="radio"
+                  name="difficulty"
+                  value={data.difficulty}
+                  onChange={handleChange}
+                  className="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300"
+                />
+                <label htmlFor={data.difficulty} className="block ml-2 text-sm font-medium text-gray-900">
+                  {data.difficulty}
+                </label>
+              </div>
+            ))}
+          </div>
         </div>
         {errors.difficulty && touched.difficulty && <div className="text-red-500">{errors.difficulty}</div>}
-      </fieldset>
+      </div>
 
       {/* Question and Answer section */}
       <div className="my-5">
@@ -209,6 +229,25 @@ const PostQuestionForm = ({
                         className={inputClassName}
                       />
                     </div>
+                  </div>
+
+                  {/* Question Image */}
+                  <div className="mb-5">
+                    <label
+                      htmlFor={`questions.${index}.questionImage`}
+                      className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >
+                      Question Image
+                    </label>
+                    <input
+                      type="file"
+                      id={`questions.${index}.questionImage`}
+                      name={`questions.${index}.questionImage`}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      className={inputClassName}
+                      accept="image/jpg,image/png,image/jpeg"
+                    />
                   </div>
                 </div>
               ))}

@@ -16,12 +16,14 @@ export const postQuestionValidation = Joi.object({
 
         point: Joi.number().required().messages({ "number.base": "Point is required" }),
 
-        quesImg: Joi.string().allow(null, "").optional(),
+        questionImage: Joi.string().allow(null, "").optional(),
       }).required(),
     )
     .min(1)
     .required()
     .messages({ "array.empty": "Questions are required" }),
+
+  title: Joi.string().required().messages({ "string.empty": "Title is required" }),
 
   category: Joi.string().required().messages({
     "any.only": "Category is required",
@@ -33,5 +35,5 @@ export const postQuestionValidation = Joi.object({
 
   totalPoint: Joi.number().required().messages({ "number.base": "Total point is required" }),
 
-  createdBy: Joi.string().required().messages({ "string.empty": "CreatedBy is required" }),
+  createdBy: Joi.required().messages({ "string.empty": "CreatedBy is required" }),
 });

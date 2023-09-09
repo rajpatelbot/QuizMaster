@@ -21,11 +21,16 @@ const UserSchema: Schema = new mongoose.Schema(
           type: Number,
           required: [true, "Point is required"],
         },
-        quesImg: {
+        questionImage: {
           type: String,
         },
       },
     ],
+
+    title: {
+      type: String,
+      required: [true, "Title is required"],
+    },
 
     category: {
       type: String,

@@ -9,10 +9,11 @@ import { IQuestionsModule } from "./types";
 
 const initialValues: IQuestionsModule = {
   questions: null,
+  title: "",
   category: null,
   difficulty: null,
   duration: 0,
-  createdBy: "",
+  createdBy: null,
 };
 
 const PostQuestionsPage = () => {
@@ -21,7 +22,7 @@ const PostQuestionsPage = () => {
   const loggedIn: ResponseType<IloggedInUser> | null = useSelector((state: ReduxStateInterface) => state.base.loggedInUser);
 
   const handleQuestionsPost = (values: IQuestionsModule) => {
-    const newPayload: IQuestionsModule = { ...values, createdBy: loggedIn?.data?._id ?? "" };
+    const newPayload: IQuestionsModule = { ...values, createdBy: loggedIn?.data ?? null };
     postQuestions(newPayload, dispatch);
   };
 

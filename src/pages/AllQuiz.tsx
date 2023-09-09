@@ -4,7 +4,6 @@ import useFetch from "../hooks/useFetch";
 
 import CardSkeletons from "../components/skeletons/CardSkeletons";
 import QuestionModuleCard from "../components/QuestionModuleCard";
-import Modal from "../components/Modal";
 
 import { API_ENDPOINT, categories } from "../helper/constant";
 import { IQuestionsModuleResponse } from "../helper/types";
@@ -35,8 +34,6 @@ const AllQuizzes = () => {
           ))}
         </div>
 
-        <Modal id="popup-modal" message="Are you sure, You want to delete this question module?" />
-
         <div className={!isLoading ? "flex items-start w-full flex-wrap gap-4" : ""}>
           {isLoading ? (
             <div className="flex items-start w-full flex-wrap gap-4">
@@ -46,8 +43,12 @@ const AllQuizzes = () => {
             </div>
           ) : error ? (
             <p>Something went wrong!!</p>
-          ) : (
+          ) : data?.data?.length ? (
             data?.data.map((item) => <QuestionModuleCard key={item._id} item={item} />)
+          ) : (
+            <div className="flex justify-center items-center w-full h-full">
+              <p className="text-2xl font-bold text-gray-500">No questions found!</p>
+            </div>
           )}
         </div>
       </div>

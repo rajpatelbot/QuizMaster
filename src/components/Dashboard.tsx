@@ -78,8 +78,12 @@ const Dashboard = () => {
               [1, 2, 3, 4, 5, 6, 7, 8].map((item) => <CardSkeletons key={item} />)
             ) : userQuestionModuleError ? (
               <p>Something went wrong!!</p>
-            ) : (
+            ) : userQuestionModule?.length ? (
               userQuestionModule?.map((item) => <QuestionModuleCard key={item._id} item={item} />)
+            ) : (
+              <div className="flex justify-center w-full h-full">
+                <p className="text-2xl font-bold text-gray-500">No questions posted!</p>
+              </div>
             )}
           </div>
         </div>

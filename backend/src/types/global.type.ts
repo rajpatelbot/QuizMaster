@@ -24,6 +24,7 @@ export enum ECategory {
 
 export interface IQuestionsModule {
   questions: IQuestions[];
+  title: string;
   category: TCategory;
   difficulty: TDifficulty;
   duration: number;
@@ -36,5 +37,5 @@ export interface IQuestions {
   options: string[];
   correctAnswer: string;
   point: number;
-  quesImg?: string;
+  questionImage?: string;
 }
