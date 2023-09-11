@@ -88,9 +88,10 @@ const PostQuestionForm = ({
             id="duration"
             type="number"
             name="duration"
-            value={values.duration}
+            value={values.duration ?? ""}
             onChange={handleChange}
             onBlur={handleBlur}
+            min={10}
             placeholder="60s"
             className={inputClassName}
           />
@@ -223,9 +224,10 @@ const PostQuestionForm = ({
                         type="number"
                         name={`questions.${index}.point`}
                         onBlur={handleBlur}
-                        value={question.point}
+                        value={question.point ?? ""}
                         onChange={handleChange}
                         placeholder="Enter a point"
+                        min={1}
                         className={inputClassName}
                       />
                     </div>
@@ -241,7 +243,7 @@ const PostQuestionForm = ({
                     </label>
                     <input
                       type="file"
-                      id={`questions.${index}.questionImage`}
+                      id="questionImage"
                       name={`questions.${index}.questionImage`}
                       onBlur={handleBlur}
                       onChange={handleChange}
