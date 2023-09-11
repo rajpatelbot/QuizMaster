@@ -32,8 +32,8 @@ export const delteQuestions = async (id: string, dispatch: Dispatch, fetchData: 
     const response = await apiService.delete(api.deleteQuestionsModulesById + id);
     const { data } = response;
 
-    fetchData(API_ENDPOINT + api.getQuestionsModules);
     successToast(data.message);
+    fetchData(API_ENDPOINT + api.getQuestionsModules);
   } catch (error) {
     handleErrorResponse(error as AxiosError);
   } finally {

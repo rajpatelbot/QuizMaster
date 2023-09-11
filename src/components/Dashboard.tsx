@@ -1,4 +1,5 @@
-import { useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 import classNames from "classnames";
 import useFetch from "../hooks/useFetch";
@@ -11,9 +12,12 @@ import { API_ENDPOINT, defaultAvatar } from "../helper/constant";
 import { IQuestionsModuleResponse, IloggedInUser, ResponseType } from "../helper/types";
 
 import CardSkeletons from "./skeletons/CardSkeletons";
+import { delteQuestions } from "../api/questionModule";
+import { IQuestionsModule } from "../features/questionModule/types";
 
 const Dashboard = () => {
   const { id } = useParams();
+  const dispatch = useDispatch();
 
   const commonCardHeadingClassName = classNames("text-xs mr-2 font-medium");
 
@@ -43,6 +47,14 @@ const Dashboard = () => {
   const userQuestionModule = useMemo(() => {
     return UserQuestionModule?.data;
   }, [UserQuestionModule?.data]);
+
+  const handleQueModuleDelete = useCallback(
+    (item: IQuestionsModule) => {
+      if (!item?._id) return;
+      delteQuestions(item._id, dispatch, fecthUserQuestionModule);
+    },
+    [delteQuestions],
+  );
 
   return (
     <section className="bg-white">
@@ -79,7 +91,9 @@ const Dashboard = () => {
             ) : userQuestionModuleError ? (
               <p>Something went wrong!!</p>
             ) : userQuestionModule?.length ? (
-              userQuestionModule?.map((item) => <QuestionModuleCard key={item._id} item={item} />)
+              userQuestionModule?.map((item) => (
+                <QuestionModuleCard key={item._id} item={item} handleQueModuleDelete={handleQueModuleDelete} />
+              ))
             ) : (
               <div className="flex justify-center w-full h-full">
                 <p className="text-2xl font-bold text-gray-500">No questions posted!</p>
