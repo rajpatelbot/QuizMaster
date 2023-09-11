@@ -18,7 +18,7 @@ export interface IQuestionsModule {
   title: string;
   category: TCategory | null;
   difficulty: TDifficulty | null;
-  duration: number;
+  duration: number | null;
   totalPoint?: number;
   createdBy: IloggedInUser | null;
   createdAt?: string;
@@ -28,6 +28,6 @@ export interface IQuestions {
   question: string;
   options: string[];
   correctAnswer: string;
-  point: number;
-  questionImage?: string;
+  point: number | null;
+  questionImage: string;
 }

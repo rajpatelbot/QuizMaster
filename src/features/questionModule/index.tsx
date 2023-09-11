@@ -12,7 +12,7 @@ const initialValues: IQuestionsModule = {
   title: "",
   category: null,
   difficulty: null,
-  duration: 0,
+  duration: null,
   createdBy: null,
 };
 
