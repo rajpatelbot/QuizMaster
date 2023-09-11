@@ -1,28 +1,24 @@
-import { useCallback } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import classNames from "classnames";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { ReduxStateInterface } from "../store/slice/types";
-import useFetch from "../hooks/useFetch";
 
 import { PrimaryButton } from "./buttons/buttons";
 import TimeStampBadge from "./TimeStampBadge";
 
 import { IQuestionsModule } from "../features/questionModule/types";
-import { IloggedInUser, IQuestionsModuleResponse, ResponseType } from "../helper/types";
-import { delteQuestions } from "../api/questionModule";
+import { IloggedInUser, ResponseType } from "../helper/types";
 
 interface IProps {
   item: IQuestionsModule;
+  handleQueModuleDelete: (item: IQuestionsModule) => void;
 }
 
-const QuestionModuleCard = ({ item }: IProps) => {
+const QuestionModuleCard = ({ item, handleQueModuleDelete }: IProps) => {
   const naviagte = useNavigate();
-  const dispatch = useDispatch();
 
   const { id } = useParams();
-  const { fetchData } = useFetch<IQuestionsModuleResponse>();
 
   const loggedIn: ResponseType<IloggedInUser> | null = useSelector((state: ReduxStateInterface) => state.base.loggedInUser);
 
@@ -31,11 +27,6 @@ const QuestionModuleCard = ({ item }: IProps) => {
   const commonCardClassName = classNames("bg-blue-100 text-blue-800 text-xs text-center font-medium mr-2 px-2 py-0.5 rounded", {
     "bg-blue-200": item.createdBy?._id === loggedIn?.data?._id,
   });
-
-  const handleQueModuleDelete = useCallback(() => {
-    if (!item?._id) return;
-    delteQuestions(item._id, dispatch, fetchData);
-  }, [item?._id]);
 
   return (
     <div key={item?._id} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
@@ -75,7 +66,7 @@ const QuestionModuleCard = ({ item }: IProps) => {
         <PrimaryButton text={"Play Now"} type={"button"} />
 
         {loggedIn?.data?._id === item.createdBy?._id && (
-          <RiDeleteBin6Fill type="button" onClick={handleQueModuleDelete} className="text-xl cursor-pointer text-red-700" />
+          <RiDeleteBin6Fill type="button" onClick={() => handleQueModuleDelete(item)} className="text-xl cursor-pointer text-red-700" />
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import classNames from "classnames";
 import useFetch from "../hooks/useFetch";
 
@@ -7,9 +8,13 @@ import QuestionModuleCard from "../components/QuestionModuleCard";
 
 import { API_ENDPOINT, categories } from "../helper/constant";
 import { IQuestionsModuleResponse } from "../helper/types";
+import { IQuestionsModule } from "../features/questionModule/types";
+
 import { api } from "../config/api";
+import { delteQuestions } from "../api/questionModule";
 
 const AllQuizzes = () => {
+  const dispatch = useDispatch();
   const { data, error, isLoading, fetchData } = useFetch<IQuestionsModuleResponse>();
 
   useEffect(() => {
@@ -18,6 +23,14 @@ const AllQuizzes = () => {
 
   const filterButtonClassName = classNames(
     "text-blue-700 hover:text-white border border-blue-600 bg-white hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-full text-base font-medium px-5 py-2.5 text-center mr-3 mb-3",
+  );
+
+  const handleQueModuleDelete = useCallback(
+    (item: IQuestionsModule) => {
+      if (!item?._id) return;
+      delteQuestions(item._id, dispatch, fetchData);
+    },
+    [delteQuestions],
   );
 
   return (
@@ -44,7 +57,7 @@ const AllQuizzes = () => {
           ) : error ? (
             <p>Something went wrong!!</p>
           ) : data?.data?.length ? (
-            data?.data.map((item) => <QuestionModuleCard key={item._id} item={item} />)
+            data?.data.map((item) => <QuestionModuleCard key={item._id} item={item} handleQueModuleDelete={handleQueModuleDelete} />)
           ) : (
             <div className="flex justify-center items-center w-full h-full">
               <p className="text-2xl font-bold text-gray-500">No questions found!</p>
