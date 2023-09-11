@@ -19,8 +19,6 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
   try {
     const payload = req.body as IQuestionsModule;
 
-    console.log(req.files);
-
     const questionImages: string[] = [];
 
     try {
@@ -42,8 +40,6 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
         ...question,
         questionImage: questionImages[index],
       }));
-
-      console.log(updatedQuestions);
 
       const totalPoint = payload.questions?.reduce((acc, curr) => acc + curr.point, 0);
       const newQuestionModule = { ...payload, questions: updatedQuestions, totalPoint };
