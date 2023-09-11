@@ -45,10 +45,9 @@ const Navbar = () => {
     <>
       <nav className="bg-white border-gray-200 dark:bg-gray-900">
         <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-          <a href="#" className="flex items-center">
-            <img src="https://flowbite.com/docs/images/logo.svg" className="h-8 mr-3" alt="Flowbite Logo" />
-            <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">Flowbite</span>
-          </a>
+          <Link to="/" className="flex items-center">
+            <span className="self-center text-2xl text-red-600 font-bold whitespace-nowrap">QuizMaster</span>
+          </Link>
 
           <div className="flex md:order-2 items-center justify-center">
             {!isLoggedIn ? (
