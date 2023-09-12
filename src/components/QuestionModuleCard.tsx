@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import classNames from "classnames";
 import { RiDeleteBin6Fill } from "react-icons/ri";
@@ -9,6 +9,8 @@ import TimeStampBadge from "./TimeStampBadge";
 
 import { IQuestionsModule } from "../features/questionModule/types";
 import { IloggedInUser, ResponseType } from "../helper/types";
+import { useCallback } from "react";
+import { setSelectedQuizModule } from "../store/slice/quiz.playSlice";
 
 interface IProps {
   item: IQuestionsModule;
@@ -16,9 +18,9 @@ interface IProps {
 }
 
 const QuestionModuleCard = ({ item, handleQueModuleDelete }: IProps) => {
-  const naviagte = useNavigate();
-
   const { id } = useParams();
+  const naviagte = useNavigate();
+  const dispatch = useDispatch();
 
   const loggedIn: ResponseType<IloggedInUser> | null = useSelector((state: ReduxStateInterface) => state.base.loggedInUser);
 
@@ -27,6 +29,11 @@ const QuestionModuleCard = ({ item, handleQueModuleDelete }: IProps) => {
   const commonCardClassName = classNames("bg-blue-100 text-blue-800 text-xs text-center font-medium mr-2 px-2 py-0.5 rounded", {
     "bg-blue-200": item.createdBy?._id === loggedIn?.data?._id,
   });
+
+  const handleQuePlayClick = useCallback(() => {
+    dispatch(setSelectedQuizModule(item));
+    naviagte("/play-quiz");
+  }, []);
 
   return (
     <div key={item?._id} className="max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow">
@@ -63,7 +70,7 @@ const QuestionModuleCard = ({ item, handleQueModuleDelete }: IProps) => {
       </div>
 
       <div className="flex items-center justify-between">
-        <PrimaryButton text={"Play Now"} type={"button"} />
+        <PrimaryButton text={"Play Now"} type={"button"} callbackFn={handleQuePlayClick} />
 
         {loggedIn?.data?._id === item.createdBy?._id && (
           <RiDeleteBin6Fill type="button" onClick={() => handleQueModuleDelete(item)} className="text-xl cursor-pointer text-red-700" />

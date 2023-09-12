@@ -16,6 +16,7 @@ import PrivateRoute from "./components/authRoutes/PrivateRoute";
 import Dashboard from "./components/Dashboard";
 
 import "react-toastify/dist/ReactToastify.css";
+import QuizPlay from "./pages/QuizPlay.page";
 
 const App = () => {
   return (
@@ -40,6 +41,15 @@ const App = () => {
           element={
             <PrivateRoute>
               <Quiz />
+            </PrivateRoute>
+          }
+        />
+
+        <Route
+          path="/play-quiz"
+          element={
+            <PrivateRoute>
+              <QuizPlay />
             </PrivateRoute>
           }
         />
