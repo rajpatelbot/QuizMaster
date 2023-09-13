@@ -21,6 +21,8 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
 
     const questionImages: string[] = [];
 
+    console.log(req.files);
+
     try {
       for (const file of req.files as Express.Multer.File[]) {
         const dateTime = new Date().toISOString().replace(/:/g, "-");
