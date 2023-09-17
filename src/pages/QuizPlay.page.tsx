@@ -10,7 +10,10 @@ import { IQuestionsModule } from "../features/questionModule/types";
 
 const QuizPlay = () => {
   const navigate = useNavigate();
+
+  const [selectedOption, setSelectedOption] = useState<string[]>([]);
   const [currentQuesIndex, setCurrentQuesIndex] = useState<number>(0);
+
   const selectedQuiz: IQuestionsModule | null = useSelector((state: IReduxStateForQuizPlay) => state.quizPlay.selectedQuizModule);
 
   const quizInfoStyle = classNames("font-semibold");
@@ -62,6 +65,8 @@ const QuizPlay = () => {
                     type="radio"
                     name="option"
                     value={option}
+                    checked={selectedOption.includes(option)}
+                    onChange={() => setSelectedOption([...selectedOption, option])}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                   />
                   <label htmlFor="bordered-radio-1" className="w-full py-4 ml-2 text-sm font-medium text-gray-900">
