@@ -6,7 +6,6 @@ Welcome to the QuizMaster - The Ultimate Quiz Experience! This application allow
 
 - [Features](#-features)
 - [Technologies Used](#-technologies-used)
-- [Usage](#-usage)
 - [License](#-license)
 
 ## 🚀 Features

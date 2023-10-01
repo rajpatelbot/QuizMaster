@@ -4,11 +4,18 @@ frameworkVersion: "3"
 provider:
   name: aws
   runtime: nodejs18.x
+  stage: dev
+  region: us-east-1
 
 functions:
-  signupUser:
-    handler: src/controllers/userController.handler
+  app:
+    handler: src/app.handler
     events:
-      --httpApi:
-        path: /user/signup
-        method: POST
+      - http:
+          path: /
+          method: get
+          cors: true
+
+package:
+  exclude:
+    - node_modules/**

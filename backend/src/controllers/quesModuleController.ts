@@ -39,6 +39,8 @@ export const postQuestions = async (req: Request, res: Response): IControllerFnR
       const updatedQuestions = payload.questions?.map((question, index) => ({
         ...question,
         questionImage: questionImages[index],
+        correctAnswer: question.correctAnswer.trim(),
+        options: question.options.map((option) => option.trim()),
       }));
 
       const totalPoint = payload.questions?.reduce((acc, curr) => acc + curr.point, 0);
