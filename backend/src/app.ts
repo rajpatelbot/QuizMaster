@@ -1,4 +1,5 @@
 import express, { Application } from "express";
+import serverless from "serverless-http";
 import cookieParser from "cookie-parser";
 import dotenv from "dotenv";
 import cors from "cors";
@@ -18,10 +19,10 @@ app.use(cookieParser());
 
 app.use(cors());
 
-app.use(express.urlencoded({ extended: false }));
-
 app.use(allRoutes);
 
+// export const handler = serverless(app);
+
 app.listen(PORT, () => {
-  console.log(`🏃‍♂️[SERVER]: Server is running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

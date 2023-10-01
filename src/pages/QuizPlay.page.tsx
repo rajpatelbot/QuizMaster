@@ -10,8 +10,9 @@ import { IQuestionsModule } from "../features/questionModule/types";
 
 const QuizPlay = () => {
   const navigate = useNavigate();
+  const [quizResult, setQuizResult] = useState<number>(0);
 
-  const [selectedOption, setSelectedOption] = useState<string[]>([]);
+  const [selectedOption, setSelectedOption] = useState<string[]>(Array(10).fill(""));
   const [currentQuesIndex, setCurrentQuesIndex] = useState<number>(0);
 
   const selectedQuiz: IQuestionsModule | null = useSelector((state: IReduxStateForQuizPlay) => state.quizPlay.selectedQuizModule);
@@ -28,6 +29,23 @@ const QuizPlay = () => {
     }
   }, [selectedQuiz]);
 
+  const checkAnswer = () => {
+    let result = 0;
+    selectedQuiz?.questions?.forEach((question, index) => {
+      if (question.correctAnswer === selectedOption[index]) {
+        result += question.point || 0;
+      }
+    });
+
+    setQuizResult(result);
+  };
+
+  useEffect(() => {
+    if (questionLength !== currentQuesIndex) return;
+    alert(`Your score is ${quizResult}`);
+    navigate("/quiz");
+  }, [quizResult]);
+
   return (
     <section className="bg-white">
       <div className="p-4 text-sm text-blue-800 rounded-lg bg-blue-50" role="alert">
@@ -35,8 +53,9 @@ const QuizPlay = () => {
           <span className={quizInfoStyle}>Category: {selectedQuiz?.category ?? "-"}</span>
           <span className={quizInfoStyle}>Total questions: {selectedQuiz?.questions?.length ?? "-"}</span>
           <span className={quizInfoStyle}>Difficulty: {selectedQuiz?.difficulty ?? "-"}</span>
-          <span className={quizInfoStyle}>Duration: {selectedQuiz?.duration + "sec" ?? "-"}</span>
+          {/* <span className={quizInfoStyle}>Duration: {selectedQuiz?.duration + "sec" ?? "-"}</span> */}
           <span className={quizInfoStyle}>Created By: {selectedQuiz?.createdBy?.name ?? "-"}</span>
+          {/* <span className={quizInfoStyle}>Results: {quizResult ?? 0}</span> */}
         </div>
       </div>
 
@@ -66,10 +85,14 @@ const QuizPlay = () => {
                     name="option"
                     value={option}
                     checked={selectedOption.includes(option)}
-                    onChange={() => setSelectedOption([...selectedOption, option])}
+                    onChange={() => {
+                      const updatedOptions = [...selectedOption];
+                      updatedOptions[currentQuesIndex] = option.trim();
+                      setSelectedOption(updatedOptions);
+                    }}
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                   />
-                  <label htmlFor="bordered-radio-1" className="w-full py-4 ml-2 text-sm font-medium text-gray-900">
+                  <label htmlFor={`option-${index}`} className="w-full py-4 ml-2 text-sm font-medium text-gray-900">
                     {option}
                   </label>
                 </div>
@@ -92,7 +115,7 @@ const QuizPlay = () => {
                 />
               </div>
 
-              {currentQuesIndex === questionLength ? <PrimaryButton text="Go to Result >>" type="button" /> : null}
+              {currentQuesIndex === questionLength ? <PrimaryButton callbackFn={checkAnswer} text="Go to Result >>" type="button" /> : null}
             </div>
           </div>
         </div>
