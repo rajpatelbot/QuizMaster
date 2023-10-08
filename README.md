@@ -14,7 +14,6 @@ Welcome to the QuizMaster - The Ultimate Quiz Experience! This application allow
 - ✏️ **Question Posting:** Users can post questions in React, TypeScript, or JavaScript.
 - 🎮 **Quiz Gameplay:** Other users can play posted questions and see their scores.
 - 👤 **Profile View:** View your profile details and posted questions.
-- 📊 **Dashboard:** Filter and view your quiz history and previously played games.
 - 📱 **Responsive Design:** The app is fully responsive for a seamless experience on all devices.
 
 ## 🛠️ Technologies Used
